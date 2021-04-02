@@ -21,8 +21,8 @@ namespace Reversi.Services
             {
                 Moves = "",
                 BoardString = GlobalConstants.DefaultBoardString,
-                PlayerOne = "def",
-                PlayerTwo = "def",
+                PlayerOne = "Black",
+                PlayerTwo = "White",
                 OnTurn = GlobalConstants.BlackPiece
             };
 
@@ -112,11 +112,42 @@ namespace Reversi.Services
             return board;
         }
 
-        public bool IsGameEnded(Game g, out string winner)
-        {
-            winner = "";
+        public string GetPlayer(Game g)
+            => g.OnTurn switch
+            {
+                GlobalConstants.BlackPiece => g.PlayerOne,
+                GlobalConstants.WhitePiece => g.PlayerTwo,
+                _ => g.PlayerOne
+            };
 
-            return false;
+        public string GetWinner(char[,] board, Game g)
+        {
+            int blackPieces = 0;
+            int whitePieces = 0;
+
+            int boardSize = board.GetLength(0);
+
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (board[i, j] == GlobalConstants.BlackPiece)
+                    {
+                        blackPieces++;
+                    }
+                    else if (board[i, j] == GlobalConstants.WhitePiece)
+                    {
+                        whitePieces++;
+                    }
+                }
+            }
+
+            return (blackPieces - whitePieces) switch
+            {
+                > 0 => g.PlayerOne,
+                < 0 => g.PlayerTwo,
+                _ => "Everybody"
+            };
         }
 
         public char SwitchTurns(char c)

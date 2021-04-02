@@ -8,9 +8,9 @@
 }
 else
 {
-    <div class="error-message">@Error</div>
 
     <div class="game-container">
+        <div class="message">@Message</div>
         <div class="game">
             @for (int i = 0; i < 8; i++)
             {
@@ -21,7 +21,7 @@ else
                         int y = j;
 
                         <div class="game-cell" @onclick="() => OnMove(x, y)">
-                            <div class="game-cell-@boardService.GetCssClassName(gameBoard[i,j]) @(legalMoves.Contains(x*10 + y) ? "game-cell-legal" : "")">
+                            <div class="game-cell-@boardService.GetCssClassName(gameBoard[i, j]) @(legalMoves.Contains(x * 10 + y) ? "game-cell-legal" : "")">
                             </div>
                         </div>
                     }
@@ -42,7 +42,7 @@ else
 
     private List<int> legalMoves = new();
 
-    public string Error = "";
+    public string Message = "";
 
 
     protected override void OnInitialized()
@@ -56,29 +56,34 @@ else
 
     public void OnMove(int xIndex, int yIndex)
     {
-        if (gameService.IsLegal(gameBoard, xIndex, yIndex, game.OnTurn))
+        if (winner == "")
         {
-            gameBoard = gameService.MakeMove(gameBoard, xIndex, yIndex, game.OnTurn);
-
-            game.BoardString = boardService.FromArrayToBoardString(gameBoard);
-
-            game.Moves = gameService.UpdateMoves(game.Moves, xIndex, yIndex, game.OnTurn);
-
-            game.OnTurn = gameService.SwitchTurns(game.OnTurn);
-
-            legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
-
-            string winnerContainer = "";
-
-            if (gameService.IsGameEnded(game, out winner))
+            if (gameService.IsLegal(gameBoard, xIndex, yIndex, game.OnTurn))
             {
-                winner = winnerContainer;
+                gameBoard = gameService.MakeMove(gameBoard, xIndex, yIndex, game.OnTurn);
+
+                game.BoardString = boardService.FromArrayToBoardString(gameBoard);
+
+                game.Moves = gameService.UpdateMoves(game.Moves, xIndex, yIndex, game.OnTurn);
+
+                game.OnTurn = gameService.SwitchTurns(game.OnTurn);
+
+                legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
+
+                if (!legalMoves.Any())
+                {
+                    Message = $"{gameService.GetPlayer(game)} has no legal moves!";
+                    game.OnTurn = gameService.SwitchTurns(game.OnTurn);
+
+                    legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
+
+                    if (!legalMoves.Any())
+                    {
+                        winner = gameService.GetWinner(gameBoard, game);
+                        Message = $"{winner} wins!";
+                    }
+                }
             }
         }
-        else
-        {
-            Error = $"{xIndex}, {yIndex} is not a legal move!";
-        }
-
     }
 }

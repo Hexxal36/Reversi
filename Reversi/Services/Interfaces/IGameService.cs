@@ -18,8 +18,10 @@ namespace Reversi.Services.Interfaces
 
         char SwitchTurns(char c);
 
-        bool IsGameEnded(Game g, out string winner);
-
         List<int> GetAllLegalMoves(char[,] board, char c);
+
+        string GetPlayer(Game g);
+
+        string GetWinner(char[,] board, Game g);
     }
 }
