@@ -16,6 +16,7 @@ a, .btn-link {
 
 .content {
     padding-top: 1.1rem;
+    height: calc(100% - 4.6rem);
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -48,3 +49,61 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+
+/*
+========================
+        Custom
+========================
+*/
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.game {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.game-row {
+    display: flex;
+}
+
+.game-cell {
+    border: 1px solid black;
+    height: 4em;
+    width: 4em;
+}
+
+.game-cell-black, 
+.game-cell-white,
+.game-cell-legal {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+}
+
+.game-cell-black {
+    background: black;
+}
+
+.game-cell-white {
+    border: 1px solid black;
+}
+
+.game-cell-legal {
+    border: 5px solid #26b05088
+}
+
+/*
+========================
+        /Custom
+========================
+*/

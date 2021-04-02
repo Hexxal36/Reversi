@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Reversi.Areas.Identity;
 using Reversi.Data;
+using Reversi.Services;
+using Reversi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,13 +36,20 @@ namespace Reversi
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
+
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<IGameService, GameService>();
+            services.AddSingleton<IBoardService, BoardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
