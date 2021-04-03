@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Reversi.Models;
+using ReversiData.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reversi.Data
+namespace ReversiData.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

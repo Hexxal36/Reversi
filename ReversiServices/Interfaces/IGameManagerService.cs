@@ -1,10 +1,7 @@
-﻿using Reversi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ReversiData.Models;
 using System.Threading.Tasks;
 
-namespace Reversi.Services.Interfaces
+namespace ReversiServices.Interfaces
 {
     public interface IGameManagerService
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Reversi.Migrations
+namespace ReversiData.Migrations
 {
     public partial class Initial : Migration
     {

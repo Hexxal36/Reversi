@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ReversiData.Models;
 
-namespace Reversi.Services.Interfaces
+namespace ReversiServices.Interfaces
 {
     public interface IBoardService
     {

@@ -1,14 +1,13 @@
-﻿using Reversi.Models;
-using System;
+﻿using ReversiData.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Reversi.Services.Interfaces
+namespace ReversiServices.Interfaces
 {
     public interface IGameService
     {
         Game GetDefaultGame();
+
+        void OnMove(ref Game game, ref char[,] gameBoard, ref List<int> legalMoves, ref string message, int xIndex, int yIndex);
 
         bool IsLegal(char[,] board, int x, int y, char c);
 

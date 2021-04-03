@@ -1,9 +1,8 @@
-﻿using Reversi.Models;
-using Reversi.Services.Interfaces;
-using System;
+﻿using ReversiData.Models;
+using ReversiServices.Interfaces;
+using ReversiShared;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Reversi.Services
 {
@@ -25,6 +24,39 @@ namespace Reversi.Services
                 PlayerTwo = "White",
                 OnTurn = GlobalConstants.BlackPiece
             };
+
+        public void OnMove(ref Game game, ref char[,] gameBoard, ref List<int> legalMoves, ref string message, int xIndex, int yIndex)
+        {
+            if (game.Winner is null)
+            {
+                if (IsLegal(gameBoard, xIndex, yIndex, game.OnTurn))
+                {
+                    gameBoard = MakeMove(gameBoard, xIndex, yIndex, game.OnTurn);
+
+                    game.BoardString = _boardService.FromArrayToBoardString(gameBoard);
+
+                    game.Moves = UpdateMoves(game.Moves, xIndex, yIndex, game.OnTurn);
+
+                    game.OnTurn = SwitchTurns(game.OnTurn);
+
+                    legalMoves = GetAllLegalMoves(gameBoard, game.OnTurn);
+
+                    if (!legalMoves.Any())
+                    {
+                        message = $"{GetPlayer(game)} has no legal moves!";
+                        game.OnTurn = SwitchTurns(game.OnTurn);
+
+                        legalMoves = GetAllLegalMoves(gameBoard, game.OnTurn);
+
+                        if (!legalMoves.Any())
+                        {
+                            game.Winner = GetWinner(gameBoard, game);
+                            message = $"{game.Winner} wins!";
+                        }
+                    }
+                }
+            }
+        }
 
 
         public bool IsLegal(char[,] board, int x, int y, char c)

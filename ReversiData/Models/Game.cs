@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Reversi.Models
+namespace ReversiData.Models
 {
     public class Game
     {

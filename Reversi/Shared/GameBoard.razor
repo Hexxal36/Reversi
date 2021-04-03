@@ -1,6 +1,6 @@
-﻿@inject IBoardService boardService
-@inject IGameService gameService
-@inject IGameManagerService GameManagerService
+﻿@inject IBoardService _boardService
+@inject IGameService _gameService
+@inject IGameManagerService _gameManagerService
 
 @if (game is null)
 {
@@ -21,7 +21,7 @@ else
                         int y = j;
 
                         <div class="game-cell" @onclick="() => OnMoveMade.Invoke(null, new MoveEventArgs(x, y, Id))">
-                            <div class="game-cell-@boardService.GetCssClassName(gameBoard[i, j]) @(legalMoves.Contains(x * 10 + y) ? "game-cell-legal" : "")">
+                            <div class="game-cell-@_boardService.GetCssClassName(gameBoard[i, j]) @(legalMoves.Contains(x * 10 + y) ? "game-cell-legal" : "")">
                             </div>
                         </div>
                     }
@@ -35,7 +35,9 @@ else
 
 @code {
     [Parameter]
-    public string? Id { get; set; }
+    public string Id { get; set; }
+
+    public string Message = "";
 
     private Game game;
 
@@ -43,25 +45,15 @@ else
 
     private List<int> legalMoves = new();
 
-    public string Message = "";
-
     private static event EventHandler<MoveEventArgs> OnMoveMade;
 
     protected override void OnInitialized()
     {
-        if (Id is null)
-        {
-            game = gameService.GetDefaultGame();
-        }
-        else
-        {
-            game = GameManagerService.GetGame(Id);
-        }
+        game = _gameManagerService.GetGame(Id);
 
-        gameBoard = boardService.FromBoardStringToArray(game.BoardString);
+        gameBoard = _boardService.FromBoardStringToArray(game.BoardString);
 
-        legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
-        base.OnInitialized();
+        legalMoves = _gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
 
         OnMoveMade += (o, e) =>
         {
@@ -74,40 +66,13 @@ else
                 }
             });
         };
+
+        base.OnInitialized();
     }
 
     public async Task OnMove(int xIndex, int yIndex)
     {
-        if (game.Winner is null)
-        {
-            if (gameService.IsLegal(gameBoard, xIndex, yIndex, game.OnTurn))
-            {
-                gameBoard = gameService.MakeMove(gameBoard, xIndex, yIndex, game.OnTurn);
-
-                game.BoardString = boardService.FromArrayToBoardString(gameBoard);
-
-                game.Moves = gameService.UpdateMoves(game.Moves, xIndex, yIndex, game.OnTurn);
-
-                game.OnTurn = gameService.SwitchTurns(game.OnTurn);
-
-                legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
-
-                if (!legalMoves.Any())
-                {
-                    Message = $"{gameService.GetPlayer(game)} has no legal moves!";
-                    game.OnTurn = gameService.SwitchTurns(game.OnTurn);
-
-                    legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
-
-                    if (!legalMoves.Any())
-                    {
-                        game.Winner = gameService.GetWinner(gameBoard, game);
-                        Message = $"{game.Winner} wins!";
-                    }
-                }
-
-                await GameManagerService.SaveGame();
-            }
-        }
+        _gameService.OnMove(ref game, ref gameBoard, ref legalMoves, ref Message, xIndex, yIndex);
+        await _gameManagerService.SaveGame();
     }
 }
