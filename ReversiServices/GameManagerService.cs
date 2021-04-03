@@ -1,4 +1,6 @@
-﻿using ReversiData.Data;
+﻿using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Client;
+using ReversiData.Data;
 using ReversiData.Models;
 using ReversiServices.Interfaces;
 using System;
@@ -20,9 +22,11 @@ namespace ReversiServices
             _context = context;
         }
 
-        public async Task<string> CreateGame()
+        public async Task<string> CreateGame(string id)
         {
             var game = _gameService.GetDefaultGame();
+
+            game.PlayerOne = id;
 
             _context.Games.Add(game);
 
@@ -41,6 +45,20 @@ namespace ReversiServices
             }
 
             return game;
+        }
+
+        public async Task JoinGame(string gameid, string id)
+        {
+            var game = _context.Games.Where(x => x.Id.ToString() == gameid).FirstOrDefault();
+
+            if (game is null)
+            {
+                throw new Exception("This game doesn't exist");
+            }
+
+            game.PlayerTwo = id;
+
+            await this._context.SaveChangesAsync();
         }
 
         public async Task SaveGame()

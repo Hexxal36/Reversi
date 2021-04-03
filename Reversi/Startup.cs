@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Reversi.Areas.Identity;
 using Reversi.Services;
 using ReversiData.Data;
+using ReversiData.Models;
 using ReversiServices;
 using ReversiServices.Interfaces;
 
@@ -28,10 +29,18 @@ namespace Reversi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                   options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddRazorPages();

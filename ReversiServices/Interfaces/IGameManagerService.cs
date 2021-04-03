@@ -5,7 +5,9 @@ namespace ReversiServices.Interfaces
 {
     public interface IGameManagerService
     {
-        Task<string> CreateGame();
+        Task<string> CreateGame(string id);
+
+        Task JoinGame(string gameid, string id);
 
         Game GetGame(string id);
 

@@ -20,10 +20,61 @@ namespace Reversi.Services
             {
                 Moves = "",
                 BoardString = GlobalConstants.DefaultBoardString,
-                PlayerOne = "Black",
-                PlayerTwo = "White",
+                PlayerOne = GlobalConstants.DefaultPlayerOne,
+                PlayerTwo = GlobalConstants.DefaultPlayerTwo,
                 OnTurn = GlobalConstants.BlackPiece
             };
+
+        public bool IsOnHisTurn(Game g, string user)
+        {
+            if (g.IsPlayerOneBlack)
+            {
+                if (g.OnTurn == GlobalConstants.BlackPiece && user == g.PlayerOne)
+                {
+                    return true;
+                }
+                if (g.OnTurn == GlobalConstants.WhitePiece && user == g.PlayerTwo)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (g.OnTurn == GlobalConstants.BlackPiece && user == g.PlayerTwo)
+                {
+                    return true;
+                }
+                if (g.OnTurn == GlobalConstants.WhitePiece && user == g.PlayerOne)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public string GetPlayerStatus(Game game, string userId)
+        {
+
+            if (game.IsPlayerOneBlack && game.PlayerOne == userId)
+            {
+                return "black";
+            }
+            if (game.IsPlayerOneBlack && game.PlayerTwo == userId)
+            {
+                return "white";
+            }
+            if (!game.IsPlayerOneBlack && game.PlayerOne == userId)
+            {
+                return "white";
+            }
+            if (!game.IsPlayerOneBlack && game.PlayerTwo == userId)
+            {
+                return "black";
+            }
+
+            return "a guest";
+        }
 
         public void OnMove(ref Game game, ref char[,] gameBoard, ref List<int> legalMoves, ref string message, int xIndex, int yIndex)
         {
@@ -54,6 +105,8 @@ namespace Reversi.Services
                             message = $"{game.Winner} wins!";
                         }
                     }
+
+                    message = "";
                 }
             }
         }

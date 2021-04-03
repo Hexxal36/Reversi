@@ -1,16 +1,19 @@
 ﻿@page "/"
-@inject IGameManagerService GameManagerService
-@inject NavigationManager NavManager
+@inject IGameManagerService _gameManagerService
+@inject NavigationManager _navManager
+@inject AuthenticationStateProvider _authStateProvider
 
-<button class="btn btn-primary" @onclick="@(async () => OnGameCreated())">
+<button class="btn btn-primary" @onclick="@(async () => await OnGameCreated())">
     New Game
 </button>
 
 @code {
     private async Task OnGameCreated()
     {
-        var gameId = await GameManagerService.CreateGame();
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
 
-        NavManager.NavigateTo($"/game/{gameId}");
+        var gameId = await _gameManagerService.CreateGame(authState.User.Identity.Name);
+
+        _navManager.NavigateTo($"/game/{gameId}");
     }
 }

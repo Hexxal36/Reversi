@@ -22,5 +22,7 @@ namespace ReversiData.Models
         public string Winner { get; set; }
 
         public bool IsActive { get; set; }
+
+        public bool IsPlayerOneBlack { get; set; }
     }
 }

@@ -9,6 +9,10 @@ namespace ReversiServices.Interfaces
 
         void OnMove(ref Game game, ref char[,] gameBoard, ref List<int> legalMoves, ref string message, int xIndex, int yIndex);
 
+        string GetPlayerStatus(Game g, string userId);
+
+        bool IsOnHisTurn(Game game, string userId);
+
         bool IsLegal(char[,] board, int x, int y, char c);
 
         char[,] MakeMove(char[,] board, int x, int y, char c);

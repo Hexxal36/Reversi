@@ -11,5 +11,8 @@
         //BoardString format: Space = B/W/O depending on type 
         //"{Space}{Space}...{Space}+{Space}{Space}...{Space}+...."
         public const string DefaultBoardString = "OOOOOOOO+OOOOOOOO+OOOOOOOO+OOOBWOOO+OOOWBOOO+OOOOOOOO+OOOOOOOO+OOOOOOOO";
+
+        public const string DefaultPlayerOne = "-----|player-one|-----";
+        public const string DefaultPlayerTwo = "-----|player-two|-----";
     }
 }
