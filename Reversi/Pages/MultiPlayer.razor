@@ -1,0 +1,9 @@
+﻿@page "/game/{id}"
+
+<GameBoard Id="@Id" />
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+}

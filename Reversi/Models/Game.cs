@@ -7,7 +7,7 @@ namespace Reversi.Models
 {
     public class Game
     {
-        public string Id = Guid.NewGuid().ToString();
+        public Guid Id { get; set; }
 
         public string PlayerOne { get; set; }
 
@@ -18,5 +18,9 @@ namespace Reversi.Models
         public string BoardString { get; set; }
 
         public char OnTurn { get; set; }
+
+        public string Winner { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

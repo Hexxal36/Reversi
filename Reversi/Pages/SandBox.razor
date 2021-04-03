@@ -1,0 +1,89 @@
+﻿@page "/sandbox"
+@inject IBoardService boardService
+@inject IGameService gameService
+
+@if (game is null)
+{
+    <div>The game is loading</div>
+}
+else
+{
+
+    <div class="game-container">
+        <div class="message">@Message</div>
+        <div class="game">
+            @for (int i = 0; i < 8; i++)
+            {
+                <div class="game-row">
+                    @for (int j = 0; j < 8; j++)
+                    {
+                        int x = i;
+                        int y = j;
+
+                        <div class="game-cell" @onclick="() => OnMove(x, y)">
+                            <div class="game-cell-@boardService.GetCssClassName(gameBoard[i, j]) @(legalMoves.Contains(x * 10 + y) ? "game-cell-legal" : "")">
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+
+@code {
+    private Game game;
+
+    private char[,] gameBoard = new char[8, 8];
+
+    private string winner = "";
+
+    private List<int> legalMoves = new();
+
+    public string Message = "";
+
+
+    protected override void OnInitialized()
+    {
+        game = gameService.GetDefaultGame();
+        gameBoard = boardService.FromBoardStringToArray(game.BoardString);
+
+        legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
+        base.OnInitialized();
+    }
+
+    public void OnMove(int xIndex, int yIndex)
+    {
+        if (winner == "")
+        {
+            if (gameService.IsLegal(gameBoard, xIndex, yIndex, game.OnTurn))
+            {
+                gameBoard = gameService.MakeMove(gameBoard, xIndex, yIndex, game.OnTurn);
+
+                game.BoardString = boardService.FromArrayToBoardString(gameBoard);
+
+                game.Moves = gameService.UpdateMoves(game.Moves, xIndex, yIndex, game.OnTurn);
+
+                game.OnTurn = gameService.SwitchTurns(game.OnTurn);
+
+                legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
+
+                if (!legalMoves.Any())
+                {
+                    Message = $"{gameService.GetPlayer(game)} has no legal moves!";
+                    game.OnTurn = gameService.SwitchTurns(game.OnTurn);
+
+                    legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);
+
+                    if (!legalMoves.Any())
+                    {
+                        winner = gameService.GetWinner(gameBoard, game);
+                        Message = $"{winner} wins!";
+                    }
+                }
+            }
+        }
+    }
+}

@@ -47,9 +47,10 @@ namespace Reversi
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<IGameService, GameService>();
             services.AddSingleton<IBoardService, BoardService>();
+
+            services.AddScoped<IGameManagerService, GameManagerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
