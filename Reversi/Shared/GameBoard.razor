@@ -10,26 +10,73 @@
 else
 {
     <div class="game-container">
-        <div class="message">@ColorMessage</div>
-        <div class="message">@AlertMessage</div>
-        <div class="message">@TurnMessage</div>
-        <div class="game">
-            @for (int i = 0; i < 8; i++)
-            {
-                <div class="game-row">
-                    @for (int j = 0; j < 8; j++)
-                    {
-                        int x = i;
-                        int y = j;
-
-                        <div class="game-cell" @onclick="() => OnTryMove(x, y)">
-                            <div class="game-cell-@_boardService.GetCssClassName(gameBoard[i, j]) @(legalMoves.Contains(x * 10 + y) ? "game-cell-legal" : "")">
-                            </div>
-                        </div>
-                    }
+        <div class="player-container">
+            <div class="white-player">
+                <div class="game-cell">
+                    <div class="game-cell-white">
+                        @if (game.OnTurn == GlobalConstants.WhitePiece)
+                        {
+                            <div class="turn"></div>
+                        }
+                    </div>
                 </div>
-            }
+                <p>
+                    @if (game.IsPlayerOneBlack)
+                    {
+                        @game.PlayerTwo
+                    }
+                    else
+                    {
+                        @game.PlayerOne
+                    }
+                </p>
+            </div>
+            <div class="black-player">
+                <div class="game-cell">
+                    <div class="game-cell-black">
+                        @if (game.OnTurn == GlobalConstants.BlackPiece)
+                        {
+                            <div class="turn"></div>
+                        }
+                    </div>
+                </div>
+                <p>
+                    @if (game.IsPlayerOneBlack)
+                    {
+                        @game.PlayerOne
+                    }
+                    else
+                    {
+                        @game.PlayerTwo
+                    }
+                </p>
+            </div>
         </div>
+        <giv class="board-container">
+
+            <div class="message">@AlertMessage</div>
+            <div class="game">
+                @for (int i = 0; i < 8; i++)
+                {
+                    <div class="game-row">
+                        @for (int j = 0; j < 8; j++)
+                        {
+                            int x = i;
+                            int y = j;
+
+                            <div class="game-cell" @onclick="() => OnTryMove(x, y)">
+                                <div class="game-cell-@_boardService.GetCssClassName(gameBoard[i, j])
+                                 @(legalMoves.Contains(x * 10 + y) && game.OnTurn == GlobalConstants.BlackPiece ? "game-black-cell-legal" : "")
+                                 @(legalMoves.Contains(x * 10 + y) && game.OnTurn == GlobalConstants.WhitePiece ? "game-white-cell-legal" : "")
+
+                                 ">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </giv>
     </div>
 }
 
@@ -38,10 +85,6 @@ else
 @code {
     [Parameter]
     public string Id { get; set; }
-
-    public string ColorMessage = "";
-
-    public string TurnMessage = "";
 
     public string AlertMessage = "";
 
@@ -52,6 +95,8 @@ else
     private List<int> legalMoves = new();
 
     private static event EventHandler<MoveEventArgs> OnMoveMade;
+
+    private static event EventHandler<JoinEventArgs> OnGameJoined;
 
     private string userId = "";
 
@@ -67,21 +112,25 @@ else
 
         userId = authState.User.Identity.Name;
 
+        OnGameJoined += (o, e) =>
+        {
+            this.InvokeAsync(async () =>
+            {
+                game.PlayerTwo = e.UserId;
+                this.StateHasChanged();
+            });
+        };
+
         if (game.PlayerTwo == GlobalConstants.DefaultPlayerTwo && game.PlayerOne != userId)
         {
             _gameManagerService.JoinGame(game.Id.ToString(), userId);
+            OnGameJoined.Invoke(null, new JoinEventArgs(userId));
         }
 
-        var playerStatus = _gameService.GetPlayerStatus(game, userId);
-
-        ColorMessage = $"You are {playerStatus}!";
-
-        TurnMessage = game.OnTurn switch
+        if (!_gameService.IsOnHisTurn(game, userId))
         {
-            GlobalConstants.BlackPiece => "Black's turn",
-            GlobalConstants.WhitePiece => "White's turn",
-            _ => "???"
-        };
+            legalMoves.Clear();
+        }
 
         OnMoveMade += (o, e) =>
         {
@@ -95,6 +144,7 @@ else
             });
         };
 
+
         base.OnInitialized();
     }
 
@@ -105,6 +155,11 @@ else
             if (_gameService.IsOnHisTurn(game, userId))
             {
                 OnMoveMade.Invoke(null, new MoveEventArgs(x, y, Id));
+
+                if (!_gameService.IsOnHisTurn(game, userId))
+                {
+                    legalMoves.Clear();
+                }
             }
         }
     }
@@ -113,12 +168,6 @@ else
     {
         _gameService.OnMove(ref game, ref gameBoard, ref legalMoves, ref AlertMessage, xIndex, yIndex);
 
-        TurnMessage = TurnMessage switch
-        {
-            "Black's turn" => "White's turn",
-            "White's turn" => "Black's turn",
-            _ => "???"
-        };
         await _gameManagerService.SaveGame();
     }
 }

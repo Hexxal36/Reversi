@@ -1,6 +1,7 @@
 ﻿using ReversiData.Models;
 using ReversiServices.Interfaces;
 using ReversiShared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,7 +23,8 @@ namespace Reversi.Services
                 BoardString = GlobalConstants.DefaultBoardString,
                 PlayerOne = GlobalConstants.DefaultPlayerOne,
                 PlayerTwo = GlobalConstants.DefaultPlayerTwo,
-                OnTurn = GlobalConstants.BlackPiece
+                OnTurn = GlobalConstants.BlackPiece,
+                IsPlayerOneBlack = new Random().Next(0, 2) == 1
             };
 
         public bool IsOnHisTurn(Game g, string user)

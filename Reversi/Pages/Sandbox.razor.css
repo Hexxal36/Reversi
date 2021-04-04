@@ -1,0 +1,20 @@
+﻿.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sandbox-icon {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    font-family: "Roboto", Arial;
+    gap: 1em;
+}
+
+.icon {
+    background: #FFCD6C;
+    border: 8px solid #B77900;
+    height: 50px;
+    width: 50px;
+}

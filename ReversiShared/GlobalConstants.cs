@@ -14,5 +14,7 @@
 
         public const string DefaultPlayerOne = "-----|player-one|-----";
         public const string DefaultPlayerTwo = "-----|player-two|-----";
+
+        public const string GuestMessage = "You are a guest!";
     }
 }

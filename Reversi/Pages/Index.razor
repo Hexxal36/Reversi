@@ -3,9 +3,38 @@
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider _authStateProvider
 
-<button class="btn btn-primary" @onclick="@(async () => await OnGameCreated())">
-    New Game
-</button>
+
+<div class="layout">
+
+    <div class="hero-container">
+
+        <AuthorizeView>
+            <Authorized>
+                <h1>Start a game or play in sandbox</h1>
+                <div class="btn-container">
+                    <NavLink href="/sandbox" class="btn btn-yellow">
+                        Sandbox
+                    </NavLink>
+                    <button class="btn btn-yellow" @onclick="@(async () => await OnGameCreated())">
+                        New Game
+                    </button>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <h1>
+                    Register to play with friends or play by yourself in sandbox mode
+                </h1>
+                <NavLink href="/sandbox" class="btn btn-yellow">
+                    Sandbox
+                </NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+
+    </div>
+    <div class="showcase-container">
+        <ShowcaseGrid />
+    </div>
+</div>
 
 @code {
     private async Task OnGameCreated()

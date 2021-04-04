@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Reversi</title>
+    <link href="/css/auth.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Rock+Salt" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="left">
+                <a href="/">
+                    Reversi
+                </a>
+            </div>
+            <div class="right">
+                <a href="/Identity/Account/Login" class="btn btn-yellow">Log in</a>
+                <a href="/Identity/Account/Register" class="btn btn-red">Register</a>
+            </div>
+        </header>
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/Identity/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
+    </div>
+</body>
+</html>

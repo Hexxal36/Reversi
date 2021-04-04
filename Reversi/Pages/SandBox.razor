@@ -11,25 +11,35 @@
 }
 else
 {
+    <div class="wrapper">
 
-    <div class="game-container">
-        <div class="message">@Message</div>
-        <div class="game">
-            @for (int i = 0; i < 8; i++)
-            {
-                <div class="game-row">
-                    @for (int j = 0; j < 8; j++)
-                    {
-                        int x = i;
-                        int y = j;
+        <div class="sandbox-icon">
+            <div class="icon"></div>
+            <p>Sandbox</p>
+        </div>
 
-                        <div class="game-cell" @onclick="() => OnMove(x, y)">
-                            <div class="game-cell-@boardService.GetCssClassName(gameBoard[i, j]) @(legalMoves.Contains(x * 10 + y) ? "game-cell-legal" : "")">
+        <div class="game-container">
+            <div class="message">@Message</div>
+            <div class="game">
+                @for (int i = 0; i < 8; i++)
+                {
+                    <div class="game-row">
+                        @for (int j = 0; j < 8; j++)
+                        {
+                            int x = i;
+                            int y = j;
+
+                            <div class="game-cell" @onclick="() => OnMove(x, y)">
+                                <div class="game-cell-@boardService.GetCssClassName(gameBoard[i, j]) @(legalMoves.Contains(x * 10 + y) ? "game-cell-legal" : "")
+                                  @(legalMoves.Contains(x * 10 + y) && game.OnTurn == GlobalConstants.BlackPiece ? "game-black-cell-legal" : "")
+                                 @(legalMoves.Contains(x * 10 + y) && game.OnTurn == GlobalConstants.WhitePiece ? "game-white-cell-legal" : "")
+                                    ">
+                                </div>
                             </div>
-                        </div>
-                    }
-                </div>
-            }
+                        }
+                    </div>
+                }
+            </div>
         </div>
     </div>
 }
@@ -51,6 +61,17 @@ else
     protected override void OnInitialized()
     {
         game = gameService.GetDefaultGame();
+
+        if (game.IsPlayerOneBlack)
+        {
+            game.PlayerOne = "Black";
+            game.PlayerTwo = "White";
+        }
+        else
+        {
+            game.PlayerOne = "White";
+            game.PlayerTwo = "Black";
+        }
         gameBoard = boardService.FromBoardStringToArray(game.BoardString);
 
         legalMoves = gameService.GetAllLegalMoves(gameBoard, game.OnTurn);

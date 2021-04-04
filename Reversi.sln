@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reversi", "Reversi\Reversi.csproj", "{D71FD2D3-2DE6-4849-94A9-DF4D1901555D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversiData", "ReversiData\ReversiData.csproj", "{85211455-C997-4F12-BFD0-0B67F466DD39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReversiData", "ReversiData\ReversiData.csproj", "{85211455-C997-4F12-BFD0-0B67F466DD39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversiServices", "ReversiServices\ReversiServices.csproj", "{6E54A39B-8A25-4857-A861-028568457FAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReversiServices", "ReversiServices\ReversiServices.csproj", "{6E54A39B-8A25-4857-A861-028568457FAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversiShared", "ReversiShared\ReversiShared.csproj", "{807A05DE-D5C0-44F1-B4BC-FDD4CF7C9BE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReversiShared", "ReversiShared\ReversiShared.csproj", "{807A05DE-D5C0-44F1-B4BC-FDD4CF7C9BE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

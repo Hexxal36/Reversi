@@ -1,0 +1,43 @@
+﻿.grid {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    background: white;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    width: fit-content;
+    height: fit-content;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell-white,
+.cell-black {
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+}
+
+.cell-white {
+    background: #DEDEDE;
+    border: 3px solid #626262;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.cell-black {
+    background: #515151;
+    border: 3px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}

@@ -1,0 +1,36 @@
+﻿h1 {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    margin-bottom: 3rem;
+    font-size: 24px;
+}
+
+.showcase-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-container {
+    display: flex;
+}
+
+@media (min-width: 800px) {
+    .layout {
+        flex-direction: row;
+    }
+
+    .hero-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .showcase-container {
+        justify-content: flex-end;
+    }
+}

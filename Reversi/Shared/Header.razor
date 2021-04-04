@@ -1,0 +1,26 @@
+﻿<header>
+    <div class="left">
+        <a href="/">
+            Reversi
+        </a>
+    </div>
+
+    <div class="right">
+        <AuthorizeView>
+            <Authorized>
+                <p class="info">Logged in as @context.User.Identity.Name.</p>
+                <a href="Identity/Account/Manage" class="btn btn-yellow">Profile</a>
+                <form method="post" action="Identity/Account/LogOut">
+                    <button type="submit" class="btn btn-red">Log out</button>
+                </form>
+            </Authorized>
+            <NotAuthorized>
+                <a href="Identity/Account/Login" class="btn btn-yellow">Log in</a>
+                <a href="Identity/Account/Register" class="btn btn-red">Register</a>
+            </NotAuthorized>
+        </AuthorizeView>
+
+
+    </div>
+
+</header>

@@ -56,7 +56,6 @@ a, .btn-link {
         Custom
 ========================
 */
-
 .game-container {
     width: 100%;
     height: 100%;
@@ -88,9 +87,10 @@ a, .btn-link {
     width: 4em;
 }
 
-.game-cell-black, 
+.game-cell-black,
 .game-cell-white,
-.game-cell-legal {
+.game-black-cell-legal,
+.game-white-cell-legal {
     border-radius: 50%;
     height: 100%;
     width: 100%;
@@ -104,8 +104,12 @@ a, .btn-link {
     border: 1px solid black;
 }
 
-.game-cell-legal {
-    border: 5px solid #26b05088
+.game-black-cell-legal {
+    border: 5px solid #464646
+}
+
+.game-white-cell-legal {
+    border: 5px solid #d4d4d4
 }
 
 /*

@@ -1,0 +1,133 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+body {
+    background: #B3C8FF;
+    background-image: url(/img/bg.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:bottom;
+    font-size: 16px;
+    padding: 0 4rem;
+    height: 100vh;
+}
+
+.btn {
+    border: none;
+    background: none;
+    text-decoration: none;
+    font-size: 16px;
+    color: black;
+
+    cursor: pointer;
+    margin: 1rem;
+    padding: .6rem .6rem;
+    border-radius: 50px;
+}
+
+.btn-red {
+    background: #FF7D6C;
+    border: 9px solid #B71600;
+}
+
+.btn-yellow {
+    background: #FFCD6C;
+    border: 9px solid #B77900;
+}
+
+/**
+    ==============
+    Game
+    ==============
+*/
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+    .game-container .message {
+        font-weight: 700;
+    }
+
+
+.game {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.game-row {
+    display: flex;
+}
+
+.game-cell {
+    border: 1px solid black;
+    height: 4em;
+    width: 4em;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-cell-black,
+.game-cell-white {
+    box-sizing: border-box;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+.game-cell-black,
+.game-cell-white,
+.game-black-cell-legal,
+.game-white-cell-legal {
+    border-radius: 50%;
+    height: 80%;
+    width: 80%;
+}
+
+.game-cell-black {
+    background: #515151;
+    border: 5px solid #000000;
+}
+
+.game-cell-white {
+    background: #fbe190;
+    border: 5px solid #626262;
+}
+
+.game-black-cell-legal {
+    border: 5px solid #000000;
+}
+
+.game-white-cell-legal {
+    border: 5px solid #626262;
+}
+
+

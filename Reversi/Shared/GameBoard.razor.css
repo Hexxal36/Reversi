@@ -1,0 +1,39 @@
+﻿.game-container {
+    display: flex;
+}
+
+.player-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.white-player,
+.black-player {
+    display: flex;
+    align-items: center;
+}
+
+.white-icon,
+.black-icon {
+    height: 50px;
+    width: 50px;
+}
+
+.white-player > .game-cell,
+.black-player > .game-cell {
+    border: none;
+}
+
+    .white-player > .game-cell > .game-cell-white,
+    .black-player > .game-cell > .game-cell-black {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+.turn {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background: red;
+}
