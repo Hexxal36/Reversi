@@ -114,17 +114,20 @@ else
 
         OnGameJoined += (o, e) =>
         {
-            this.InvokeAsync(async () =>
+            this.InvokeAsync(() =>
             {
-                game.PlayerTwo = e.UserId;
-                this.StateHasChanged();
+                if (e.GameId == Id)
+                {
+                    game.PlayerTwo = e.UserId;
+                    this.StateHasChanged();
+                }
             });
         };
 
         if (game.PlayerTwo == GlobalConstants.DefaultPlayerTwo && game.PlayerOne != userId)
         {
             _gameManagerService.JoinGame(game.Id.ToString(), userId);
-            OnGameJoined.Invoke(null, new JoinEventArgs(userId));
+            OnGameJoined.Invoke(null, new JoinEventArgs(userId, game.Id.ToString()));
         }
 
         if (!_gameService.IsOnHisTurn(game, userId))
